@@ -1,167 +1,24 @@
-1. Insert Documents
-Syntax:
 
+1.   library_db> db.Bookdata.find({status:"Available"});
+2.   library_db> db.members.find({"borrowHistory.overdue":{$gt: 0 }});
+3.   library_db> db.Bookdata.find({genre:"Technology"});
+4.   library_db> db.Bookdata.find({"copies.total":{ $gt: 3}});
+5.   library_db> db.Bookdata.find({"location.floor" : 2});
+6.   library_db> db.members.find({ status: "Active"});
+7.   library_db> db.Bookdata.find({ "location.section": "Tech"});
+8.   library_db> db.Bookdata.find({genre:{$all: ["Technology", "Mathematics"]}});
+9.   library_db> db.members.find({"borrowHistory": {$size:{$gt: 1}}});
+10.  library_db> db.Bookdata.find({"reviews.rating":{$gt: 4.5}});
+11.  library_db> db.Bookdata.updateOne({ bookId: "BK101" },{ $push: {reviews:{ rating: 5, review: "Excellent resource for learning!"}}});
+12.  library_db> db.Members.updateOne({memberId:"MEM101"},{$set:{"notificationPreferences":{email: true,sms:false}}});
+13.  library_db> db.Bookdata.updateOne({bookId:"BK105"}, {$set:{status:"Maintenance"}});
+14.  library_db> db.Members.updateOne({memberId: "MEM104"}, {$set:{ status:"Expired"}});
+15.  library_db> db.Members.deleteMany({status:"Expired"});
+16.  library_db> db.Bookdata.deleteMany({status:"Maintenance"});
+17.  library_db> db.Members.updateOne({memberId:"MEM101"},{ $pull:{ borrowHistory:"BK101"}});
 
-db.collection.insertOne(document)  
-db.collection.insertMany([document1, document2, ...])  
-Example:
 
 
-db.users.insertOne({ name: "John", age: 30, city: "New York" })  
-db.users.insertMany([{ name: "Jane", age: 25 }, { name: "Doe", age: 40 }]) 
- 
-2. Query Documents (Find)
-Syntax:
 
 
-db.collection.find(query, projection)  
-db.collection.findOne(query, projection)  
-Example:
 
-
-db.users.find({ age: { $gt: 25 } }) // Find all users with age > 25  
-db.users.findOne({ name: "John" })  // Find one user named John  
-
-3. Update Documents
-Syntax:
-
-
-db.collection.updateOne(filter, update, options)  
-db.collection.updateMany(filter, update, options)  
-db.collection.replaceOne(filter, replacement, options)  
-Example:
-
-
-db.users.updateOne({ name: "John" }, { $set: { age: 31 } })  
-db.users.updateMany({ age: { $lt: 30 } }, { $inc: { age: 1 } })  
-db.users.replaceOne({ name: "Doe" }, { name: "Doe", city: "LA" })  
-
-4. Delete Documents
-Syntax:
-
-
-db.collection.deleteOne(filter)  
-db.collection.deleteMany(filter)  
-Example:
-
-
-db.users.deleteOne({ name: "John" })  
-db.users.deleteMany({ age: { $gte: 40 } })  
-
-
-5. Count Documents
-Syntax:
-
-
-db.collection.countDocuments(query)  
-Example:
-
-
-db.users.countDocuments({ age: { $gt: 25 } })  
-
-
-6. Sort Results
-Syntax:
-
-
-db.collection.find(query).sort(sortCriteria)  
-Example:
-
-
-db.users.find().sort({ age: 1 })  // Sort by age in ascending order  
-db.users.find().sort({ age: -1 }) // Sort by age in descending order 
-
- 
-7. Limit and Skip Results
-Syntax:
-
-
-db.collection.find(query).limit(n).skip(m)  
-Example:
-
-
-db.users.find().limit(5)          // Limit results to 5 documents  
-db.users.find().skip(10).limit(5) // Skip 10 and fetch the next 5 documents  
-
-
-8. Aggregation
-Syntax:
-
-
-db.collection.aggregate(pipeline)  
-Example:
-
-
-db.users.aggregate([  
-  { $match: { age: { $gt: 25 } } },  
-  { $group: { _id: "$city", total: { $sum: 1 } } }  
-])  
-
-
-9. Create an Index
-Syntax:
-
-
-db.collection.createIndex(keys, options)  
-Example:
-
-
-db.users.createIndex({ name: 1 })  // Create an ascending index on the "name" field  
-
-
-10. Drop an Index
-Syntax:
-
-
-db.collection.dropIndex(indexName)  
-Example:
-
-
-db.users.dropIndex("name_1")  
-
-
-11. Drop a Collection
-Syntax:
-
-
-db.collection.drop()  
-Example:
-
-
-db.users.drop() 
-
- 
-12. Drop a Database
-Syntax:
-
-
-db.dropDatabase()  
-Example:
-
-
-db.dropDatabase()
-
-  
-13. Bulk Write
-Syntax:
-
-
-db.collection.bulkWrite(operations, options)  
-Example:
-
-
-db.users.bulkWrite([  
-  { insertOne: { document: { name: "Alice", age: 28 } } },  
-  { updateOne: { filter: { name: "John" }, update: { $set: { age: 32 } } } },  
-  { deleteOne: { filter: { name: "Doe" } } }  
-])  
-
-
-14. Rename a Collection
-Syntax:
-
-db.collection.renameCollection(newName)  
-Example:
-
-
-db.users.renameCollection("customers")
